@@ -1,13 +1,9 @@
-use thirtyfour::{By, EdgeCapabilities, WebDriver};
+use thirtyfour::{By, ChromeCapabilities, WebDriver};
 use thirtyfour::prelude::{ElementQueryable, ElementWaitable};
 
 #[tokio::main]
-pub async fn create_web_driver(port: u16, email: &str, password: &str) {
-    let driver = start_web_driver_session(port).await;
-    driver
-        .goto("https://web.jibble.io/login")
-        .await
-        .expect("Error going to wikipedia");
+pub async fn jibble_in_using_web_driver(port: u16, email: &str, password: &str){
+    let driver = setup_web_driver(port).await;
 
     login_into_jibble(&driver, password, email).await;
     jibble_in(&driver).await;
@@ -15,8 +11,12 @@ pub async fn create_web_driver(port: u16, email: &str, password: &str) {
     driver.quit().await.expect("Error the closing the driver");
 }
 
+async fn setup_web_driver(port: u16) -> WebDriver {
+    start_web_driver_session(port).await
+}
+
 async fn start_web_driver_session(port: u16) -> WebDriver {
-    let caps = EdgeCapabilities::new();
+    let caps = ChromeCapabilities::new();
     WebDriver::new(format!("http://localhost:{port}").as_str(), caps)
         .await
         .expect("Error connecting to the web driver")
@@ -40,6 +40,11 @@ async fn login_into_jibble(driver: &WebDriver, password: &str, email: &str) {
     let email_input_xpath = "/html/body/div[1]/div/div[1]/div/div/div[2]/div/div/div/div/div[2]/form/div[1]/div/div[1]/div/input";
     let password_input_xpath = "/html/body/div[1]/div/div[1]/div/div/div[2]/div/div/div/div/div[2]/form/div[2]/div/div/div/div[1]/input";
     let login_button_xpath = "/html/body/div[1]/div/div[1]/div/div/div[2]/div/div/div/div/div[2]/button";
+
+    driver
+        .goto("https://web.jibble.io/login")
+        .await
+        .expect("Error going to wikipedia");
 
     fill_input_by_xpath(driver, email_input_xpath, email, "user or phone number").await;
     fill_input_by_xpath(driver, password_input_xpath, password, "password").await;

@@ -7,8 +7,6 @@ edition = "2021"
 
 [dependencies]
 clap = { version = "4.2.4", features = ["derive", "cargo"] }
-env_logger = "0.10.0"
-log = "0.4.17"
-selenium-manager = {git = "https://github.com/SeleniumHQ/selenium", branch= "trunk"}
+selenium-manager = { git = "https://github.com/SeleniumHQ/selenium", branch = "trunk" }
 thirtyfour = "0.31.0"
-tokio = {version = "1.27.0", features = ["full"]}
+tokio = { version = "1.27.0", features = ["full"] }

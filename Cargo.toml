@@ -10,3 +10,9 @@ clap = { version = "4.2.4", features = ["derive", "cargo"] }
 selenium-manager = { git = "https://github.com/SeleniumHQ/selenium", branch = "trunk" }
 thirtyfour = "0.31.0"
 tokio = { version = "1.27.0", features = ["full"] }
+
+[profile.release]
+strip = true
+opt-level = "z"
+lto = true
+panic = "abort"

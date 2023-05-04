@@ -1,4 +1,4 @@
-use clap::{Parser, ValueEnum};
+use clap::{crate_authors, Parser, ValueEnum};
 
 use crate::scrapper::jibble_in_using_web_driver;
 
@@ -24,7 +24,7 @@ struct Args {
     password: String,
     /// Browser driver to use.
     ///
-    /// The browser needs to be installed because the driver version will match with the installed browser version
+    /// The browser needs to be installed because the driver version will match with the installed browser version. The web drivers default download location is ~/.cache/selenium/
     #[arg(short, long, value_enum, default_value_t = WebDriver::Chrome)]
     driver: WebDriver,
 }

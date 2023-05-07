@@ -29,8 +29,7 @@ async fn start_web_driver_session(port: u16, capabilities: Capabilities) -> WebD
         .await;
         if result.is_err() {
             if attempt.eq(&max_connection_attempts) {
-                eprintln!("Could not connect to the web server");
-                exit(1);
+                panic!("Could not connect to the web server");
             }
             eprintln!("Failed to connect to the web driver waiting 1 second before the next try");
             sleep(Duration::from_secs(1));
@@ -38,8 +37,7 @@ async fn start_web_driver_session(port: u16, capabilities: Capabilities) -> WebD
             return result.unwrap();
         }
     }
-    eprintln!("Error starting web driver session");
-    exit(1);
+    panic!("Error starting web driver session");
 }
 
 async fn jibble_in(driver: &WebDriver) {
@@ -108,7 +106,6 @@ async fn close_driver_on_error(driver: &WebDriver, error_message: &str) {
         .quit()
         .await
         .expect(" Error closing the driver");
-    exit(1);
 }
 
 async fn login_into_jibble(driver: &WebDriver, password: &str, email: &str) {

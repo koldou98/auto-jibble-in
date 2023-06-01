@@ -1,4 +1,3 @@
-
 use std::thread::sleep;
 use std::time::Duration;
 
@@ -16,7 +15,10 @@ pub async fn jibble_in_using_web_driver(
 
     login_into_jibble(&driver, password, email).await;
     jibble_in(&driver).await;
-    driver.quit().await.expect("Error the closing the driver");
+    match driver.quit().await {
+        Ok(_) => println!("Driver closed successfully"),
+        Err(_) => eprintln!("Could not close the driver, probably already closed"),
+    }
 }
 
 async fn start_web_driver_session(port: u16, capabilities: Capabilities) -> WebDriver {
@@ -101,11 +103,10 @@ async fn jibble_in(driver: &WebDriver) {
 
 async fn close_driver_on_error(driver: &WebDriver, error_message: &str) {
     eprintln!("{}", error_message);
-    driver
-        .clone()
-        .quit()
-        .await
-        .expect(" Error closing the driver");
+    match driver.clone().quit().await {
+        Ok(_) => println!("Driver closed successfully"),
+        Err(_) => eprintln!("Could not close the driver, probably already closed"),
+    }
 }
 
 async fn login_into_jibble(driver: &WebDriver, password: &str, email: &str) {

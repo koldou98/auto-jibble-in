@@ -1,4 +1,4 @@
-use clap::{crate_authors, Parser, ValueEnum};
+use clap::{Parser, ValueEnum};
 
 use crate::scrapper::jibble_in_using_web_driver;
 
@@ -22,7 +22,7 @@ struct Args {
     /// Jibble password
     #[arg(short, long)]
     password: String,
-    /// Browser driver to use.
+    /// Browser driver to use. Currently only the browser stable versions supported.
     ///
     /// The browser needs to be installed because the driver version will match with the installed browser version. The web drivers default download location is ~/.cache/selenium/
     #[arg(short, long, value_enum, default_value_t = WebDriver::Chrome)]
